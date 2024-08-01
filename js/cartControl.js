@@ -46,7 +46,7 @@ const createCartItem = (item, data) => {
   li.classList.add("order__item");
   li.innerHTML = `
     <img class="order__img" src="${
-      img ? `${API_URL}${img}` : "img/make-your-own.jpg"
+      img ? `${API_URL}${img}` : "images/make-your-own.jpg"
     }"
       alt="${item.title}">
 
