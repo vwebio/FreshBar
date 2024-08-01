@@ -7,11 +7,25 @@ export const getData = async () => {
 };
 
 export const sentData = async (data) => {
-  return await fetch(`${API_URL}api/order`, {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  try {
+    console.log("Sending data:", data); // Логирование данных перед отправкой
+    const response = await fetch(`${API_URL}api/order`, {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!response.ok) {
+      const errorText = await response.text(); // Получение текста ошибки
+      console.error(`Error: ${response.status} ${response.statusText} - ${errorText}`);
+      throw new Error(`Server error: ${response.status}`);
+    }
+    const result = await response.json();
+    console.log("Response data:", result); // Логирование данных ответа
+    return result;
+  } catch (error) {
+    console.error("Request failed:", error);
+    throw error;
+  }
 };

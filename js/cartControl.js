@@ -110,16 +110,21 @@ const handlerSubmit = async (e) => {
   }
 
   const data = getFormData(orderForm);
-  const response = await sentData({
-    ...data,
-    products: orderListData,
-  });
-
-  const { message } = await response.json();
-  alert(message);
-  cartDataControl.clear();
-  orderForm.reset();
-  modalOrder.closeModal("close");
+  try {
+    const response = await sentData({
+      ...data,
+      products: orderListData,
+    });
+    if (response.message) {
+      alert(response.message);
+    }
+    cartDataControl.clear();
+    orderForm.reset();
+    modalOrder.closeModal("close");
+  } catch (error) {
+    console.error("Order submission failed:", error);
+    alert("Произошла ошибка при отправке заказа.");
+  }
 };
 
 export const renderCart = (data) => {
